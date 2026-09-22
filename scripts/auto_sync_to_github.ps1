@@ -3,32 +3,37 @@ param(
     [string]$Branch = "main"
 )
 
-$repoPath = (Get-Location).Path
+$script:repoPath = (Get-Location).Path
+$script:remoteName = $Remote
+$script:branchName = $Branch
 
-function Invoke-Git {
-    param([string]$Arguments)
-    $output = & git $Arguments 2>&1
+function Invoke-GitCommand {
+    param(
+        [Parameter(ValueFromRemainingArguments = $true)]
+        [string[]]$Arguments
+    )
+
+    $output = & git @Arguments 2>&1
     if ($LASTEXITCODE -ne 0) {
-        Write-Error $output
-        throw "Git command failed: git $Arguments"
+        throw "Git command failed: git $($Arguments -join ' ')`n$output"
     }
     return $output
 }
 
 try {
-    $remoteUrl = Invoke-Git -Arguments "remote get-url $Remote"
+    $remoteUrl = Invoke-GitCommand remote get-url $script:remoteName
     Write-Host "Remote actual: $remoteUrl"
 } catch {
-    Write-Host "No existe el remoto '$Remote'. Primero crea el repositorio en GitHub y luego añade el remoto:"
+    Write-Host "No existe el remoto '$script:remoteName'. Primero crea el repositorio en GitHub y luego añade el remoto:"
     Write-Host "git remote add origin https://github.com/<usuario>/<repositorio>.git"
     Write-Host "git branch -M main"
     Write-Host "git push -u origin main"
     exit 1
 }
 
-Write-Host "Observando cambios en: $repoPath"
+Write-Host "Observando cambios en: $script:repoPath"
 $watcher = New-Object System.IO.FileSystemWatcher
-$watcher.Path = $repoPath
+$watcher.Path = $script:repoPath
 $watcher.IncludeSubdirectories = $true
 $watcher.EnableRaisingEvents = $true
 $watcher.NotifyFilter = [System.IO.NotifyFilters]::FileName, [System.IO.NotifyFilters]::DirectoryName, [System.IO.NotifyFilters]::LastWrite, [System.IO.NotifyFilters]::CreationTime
@@ -37,8 +42,7 @@ $action = {
     param($source, $eventArgs)
 
     try {
-        $repo = (Get-Location).Path
-        Set-Location $repo
+        Set-Location $script:repoPath
 
         $status = & git status --porcelain
         if (-not $status) {
@@ -47,18 +51,21 @@ $action = {
 
         & git add -A
         $commitMessage = "Auto sync $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-        & git commit -m $commitMessage
 
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host "Commit creado: $commitMessage"
+        $commitResult = & git commit -m $commitMessage 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "No hubo cambios válidos para commitear: $commitResult"
+            return
         }
 
-        & git push origin main
+        Write-Host "Commit creado: $commitMessage"
+        & git push $script:remoteName $script:branchName
+
         if ($LASTEXITCODE -eq 0) {
             Write-Host "Subido a GitHub correctamente."
         }
     } catch {
-        Write-Host "Error durante la sincronización automatica: $($_.Exception.Message)"
+        Write-Host "Error durante la sincronización automática: $($_.Exception.Message)"
     }
 }
 
