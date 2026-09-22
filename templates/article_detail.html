@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <div class="container">
+      <span class="kicker">{{ article.category.name if article.category else 'Artículo' }}</span>
+      <h1>{{ article.title }}</h1>
+      <p class="small-muted">Por {{ article.author }} · {{ article.published_at.strftime('%d %b %Y') }} · {{ article.reading_time }} min de lectura</p>
+    </div>
+  </section>
+
+  <div class="container content-shell">
+    <article class="article-body">
+      <div class="thumb" style="height: 220px; border-radius: 16px; margin-bottom: 20px; background: linear-gradient(135deg, #dfe9ff, #eff9f6);"></div>
+      <p>{{ article.excerpt }}</p>
+      <div>{{ article.content | safe }}</div>
+      <div style="margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px;">
+        <h3>Conclusión</h3>
+        <p>La mejor manera de usar la tecnología es resolviendo un problema real y revisando siempre el resultado. Si te interesa este tema, también puedes explorar más artículos relacionados.</p>
+      </div>
+    </article>
+
+    <aside>
+      <div class="sidebar-block">
+        <h3>Artículo relacionado</h3>
+        <ul class="link-list">
+          {% for item in related %}
+            <li><a href="/articulo/{{ item.slug }}">{{ item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="sidebar-block">
+        <h3>Explorar categorías</h3>
+        <ul class="link-list">
+          {% for category in categories %}
+            <li><a href="/categoria/{{ category.slug }}">{{ category.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </div>
+{% endblock %}

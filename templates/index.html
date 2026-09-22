@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Tecnología para Gente Normal{% endblock %}
+{% block content %}
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="kicker">Soluciones prácticas</span>
+          <h1>TECNOLOGÍA SIN COMPLICACIONES</h1>
+          <p>Aprende a usar la tecnología para resolver problemas de todos los días, sin necesidad de ser experto.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#destacados">Ver artículos</a>
+            <a class="btn secondary" href="/herramienta/generador-codigos-qr-herramienta">Probar una herramienta</a>
+          </div>
+        </div>
+        <div class="feature-card">
+          <h3>¿Qué necesitas hacer?</h3>
+          <div class="feature-list">
+            <div class="feature-item">💡 Quiero resumir un PDF</div>
+            <div class="feature-item">📱 Quiero liberar espacio</div>
+            <div class="feature-item">🧾 Quiero crear un código QR</div>
+            <div class="feature-item">📚 Quiero estudiar con IA</div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="category-strip">
+          {% for category in categories %}
+            <a class="category-pill" href="/categoria/{{ category.slug }}">{{ category.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="destacados" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Artículos destacados</h2>
+          <a href="/buscar?q=">Explorar todo</a>
+        </div>
+        <div class="grid card-grid">
+          {% for article in featured_articles %}
+            <article class="article-card">
+              <div class="thumb" aria-hidden="true"></div>
+              <div class="content">
+                <span class="badge">{{ article.category.name if article.category else 'General' }}</span>
+                <h3><a href="/articulo/{{ article.slug }}">{{ article.title }}</a></h3>
+                <p class="meta">{{ article.author }} · {{ article.published_at.strftime('%d %b %Y') }} · {{ article.reading_time }} min</p>
+                <p>{{ article.excerpt }}</p>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Herramientas útiles</h2>
+          <a href="/auditoria-calidad">Auditoría de calidad</a>
+        </div>
+        <div class="grid card-grid">
+          {% for tool in tools %}
+            <article class="tool-card">
+              <div class="content">
+                <span class="badge">Herramienta</span>
+                <h3><a href="/herramienta/{{ tool.slug }}">{{ tool.name }}</a></h3>
+                <p>{{ tool.summary }}</p>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

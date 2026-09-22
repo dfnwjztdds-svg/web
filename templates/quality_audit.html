@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Auditoría de calidad | Tecnología para Gente Normal{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <div class="container">
+      <span class="kicker">Auditoría interna</span>
+      <h1>Auditoría de calidad</h1>
+    </div>
+  </section>
+
+  <section class="container content-shell">
+    <div class="article-body" style="width:100%;">
+      <h2>Preparación para monetización</h2>
+      <p>Esta auditoría es una herramienta interna para verificar que el sitio cumpla con principios de calidad, utilidad y experiencia de usuario antes de considerar monetización. No garantiza aprobación en Google.</p>
+      <table style="width:100%; border-collapse: collapse; margin-top: 18px;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:10px; border-bottom:1px solid var(--border);">Ítem</th>
+            <th style="text-align:left; padding:10px; border-bottom:1px solid var(--border);">Estado</th>
+            <th style="text-align:left; padding:10px; border-bottom:1px solid var(--border);">Observación</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for label, state, observation in checklist %}
+            <tr>
+              <td style="padding:10px; border-bottom:1px solid var(--border);">{{ label }}</td>
+              <td style="padding:10px; border-bottom:1px solid var(--border);">
+                {% if state == 'VERDE' %}<span class="status-green">VERDE</span>{% elif state == 'AMARILLO' %}<span class="status-yellow">AMARILLO</span>{% else %}<span class="status-red">ROJO</span>{% endif %}
+              </td>
+              <td style="padding:10px; border-bottom:1px solid var(--border);">{{ observation }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

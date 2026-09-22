@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Admin | Tecnología para Gente Normal{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <div class="container">
+      <span class="kicker">Administración</span>
+      <h1>Panel de administración</h1>
+    </div>
+  </section>
+
+  <section class="container content-shell">
+    <div style="width:100%;">
+      <div class="admin-grid">
+        <div class="stat-card">
+          <h3>Artículos</h3>
+          <p>{{ articles|length }}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Herramientas</h3>
+          <p>{{ tools|length }}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Mensajes</h3>
+          <p>{{ messages|length }}</p>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <h3>Crear artículo</h3>
+        <form method="post" action="/admin/articulo/nuevo" class="form-grid">
+          <div class="form-row">
+            <div>
+              <label>Título</label>
+              <input type="text" name="title" required />
+            </div>
+            <div>
+              <label>Slug</label>
+              <input type="text" name="slug" />
+            </div>
+          </div>
+          <div>
+            <label>Resumen</label>
+            <textarea name="excerpt" required></textarea>
+          </div>
+          <div>
+            <label>Contenido</label>
+            <textarea name="content" required></textarea>
+          </div>
+          <div class="form-row">
+            <div>
+              <label>Autor</label>
+              <input type="text" name="author" value="Andrés" />
+            </div>
+            <div>
+              <label>Categoría</label>
+              <select name="category_id">
+                {% for category in categories %}
+                  <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label>Estado</label>
+            <select name="status">
+              <option value="BORRADOR">BORRADOR</option>
+              <option value="EN REVISIÓN">EN REVISIÓN</option>
+              <option value="PUBLICADO" selected>PUBLICADO</option>
+            </select>
+          </div>
+          <button class="btn primary" type="submit">Guardar artículo</button>
+        </form>
+      </div>
+
+      <div class="sidebar-block">
+        <h3>Crear herramienta</h3>
+        <form method="post" action="/admin/herramienta/nueva" class="form-grid">
+          <div class="form-row">
+            <div>
+              <label>Nombre</label>
+              <input type="text" name="name" required />
+            </div>
+            <div>
+              <label>Slug</label>
+              <input type="text" name="slug" />
+            </div>
+          </div>
+          <div>
+            <label>Resumen</label>
+            <textarea name="summary" required></textarea>
+          </div>
+          <div>
+            <label>Descripción</label>
+            <textarea name="description" required></textarea>
+          </div>
+          <div>
+            <label>Cómo usarla</label>
+            <textarea name="how_to_use" required></textarea>
+          </div>
+          <div>
+            <label>Ejemplos</label>
+            <textarea name="examples" required></textarea>
+          </div>
+          <div>
+            <label>Limitaciones</label>
+            <textarea name="limitations" required></textarea>
+          </div>
+          <div>
+            <label>FAQ</label>
+            <textarea name="faqs" required></textarea>
+          </div>
+          <button class="btn primary" type="submit">Guardar herramienta</button>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}

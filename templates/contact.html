@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Contacto | Tecnología para Gente Normal{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <div class="container">
+      <span class="kicker">Contacto</span>
+      <h1>Hablemos</h1>
+    </div>
+  </section>
+
+  <section class="container content-shell">
+    <div class="article-body">
+      {% if success %}
+        <div class="status-green">Tu mensaje fue enviado correctamente. Gracias por contactar con nosotros.</div>
+      {% endif %}
+      <form method="post" action="/contacto" class="form-grid">
+        <div class="form-row">
+          <div>
+            <label for="name">Nombre</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <div>
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+        </div>
+        <div>
+          <label for="subject">Motivo del contacto</label>
+          <input id="subject" name="subject" type="text" required />
+        </div>
+        <div>
+          <label for="message">Mensaje</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button class="btn primary" type="submit">Enviar mensaje</button>
+      </form>
+    </div>
+    <aside>
+      <div class="sidebar-block">
+        <h3>Información</h3>
+        <p><strong>Email:</strong> contacto@tecnologiaparagente.normal</p>
+        <p>Este sitio no solicita datos innecesarios y busca proteger la privacidad del usuario.</p>
+      </div>
+    </aside>
+  </section>
+{% endblock %}

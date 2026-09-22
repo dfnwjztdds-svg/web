@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tecnología para gente normal: soluciones prácticas de IA, celulares, computadores, estudio, negocios y herramientas digitales." />
+  <title>{% block title %}Tecnología para Gente Normal{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%231665d8'/%3E%3Ctext x='50' y='58' text-anchor='middle' font-size='52' fill='white'%3ET%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <a class="brand" href="/" aria-label="Ir a inicio">
+        <span class="brand-mark">T</span>
+        <span>TECNOLOGÍA PARA GENTE NORMAL</span>
+      </a>
+      <nav class="menu" aria-label="Menú principal">
+        <a href="/">Inicio</a>
+        {% for category in categories %}
+          <a href="/categoria/{{ category.slug }}">{{ category.name }}</a>
+        {% endfor %}
+        <a href="/nosotros">Nosotros</a>
+        <a href="/contacto">Contacto</a>
+      </nav>
+      <form class="search-box" method="post" action="/buscar">
+        <input id="site-search" type="search" name="q" placeholder="¿Qué necesitas hacer?" aria-label="Buscar en el sitio" />
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>TECNOLOGÍA PARA GENTE NORMAL</h3>
+        <p>Soluciones prácticas para usar la tecnología sin complicaciones.</p>
+      </div>
+      <div>
+        <h4>Categorías</h4>
+        <ul class="link-list">
+          {% for category in categories %}
+            <li><a href="/categoria/{{ category.slug }}">{{ category.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul class="link-list">
+          <li><a href="/politica-privacidad">Política de privacidad</a></li>
+          <li><a href="/politica-cookies">Política de cookies</a></li>
+          <li><a href="/terminos-condiciones">Términos y condiciones</a></li>
+          <li><a href="/copyright">Copyright</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Nosotros</h4>
+        <ul class="link-list">
+          <li><a href="/nosotros">Nosotros</a></li>
+          <li><a href="/contacto">Contacto</a></li>
+          <li><a href="/auditoria-calidad">Auditoría de calidad</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 16px;">
+      <small>© 2026 Tecnología para Gente Normal. Todos los derechos reservados.</small>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

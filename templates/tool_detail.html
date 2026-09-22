@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ tool.name }}{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <div class="container">
+      <span class="kicker">Herramienta</span>
+      <h1>{{ tool.name }}</h1>
+      <p>{{ tool.summary }}</p>
+    </div>
+  </section>
+
+  <section class="container content-shell">
+    <article class="article-body">
+      <h2>¿Qué hace?</h2>
+      <p>{{ tool.description }}</p>
+      <h3>¿Para quién sirve?</h3>
+      <p>Esta herramienta es útil para personas que necesitan resolver un problema concreto de forma rápida y con poca fricción.</p>
+      <h3>Cómo utilizarla</h3>
+      <p>{{ tool.how_to_use }}</p>
+      <h3>Ejemplos</h3>
+      <p>{{ tool.examples }}</p>
+      <h3>Limitaciones</h3>
+      <p>{{ tool.limitations }}</p>
+      <h3>Preguntas frecuentes</h3>
+      <p>{{ tool.faqs }}</p>
+    </article>
+    <aside>
+      <div class="sidebar-block">
+        <h3>Contenido relacionado</h3>
+        <ul class="link-list">
+          {% for category in categories %}
+            <li><a href="/categoria/{{ category.slug }}">{{ category.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </section>
+{% endblock %}

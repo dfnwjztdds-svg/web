@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Búsqueda | Tecnología para Gente Normal{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <div class="container">
+      <span class="kicker">Búsqueda</span>
+      <h1>Resultados para: {{ query or 'todo el contenido' }}</h1>
+    </div>
+  </section>
+
+  <section class="container content-shell">
+    <div>
+      {% if results %}
+        <div class="grid card-grid">
+          {% for article in results %}
+            <article class="article-card">
+              <div class="thumb" aria-hidden="true"></div>
+              <div class="content">
+                <span class="badge">{{ article.category.name if article.category else 'General' }}</span>
+                <h3><a href="/articulo/{{ article.slug }}">{{ article.title }}</a></h3>
+                <p>{{ article.excerpt }}</p>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="article-body">
+          <h2>No encontramos exactamente lo que buscas.</h2>
+          <p>Prueba con términos como “resumir PDF”, “liberar espacio”, “IA para estudiar” o “inventario”.</p>
+          <ul>
+            {% for category in categories %}
+              <li><a href="/categoria/{{ category.slug }}">{{ category.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

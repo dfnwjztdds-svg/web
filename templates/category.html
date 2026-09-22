@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ category.name }} | Tecnología para Gente Normal{% endblock %}
+{% block content %}
+  <section class="page-header">
+    <div class="container">
+      <span class="kicker">Categoría</span>
+      <h1>{{ category.name }}</h1>
+      <p>{{ category.description }}</p>
+    </div>
+  </section>
+
+  <section class="container content-shell">
+    <div>
+      <div class="grid card-grid">
+        {% for article in articles %}
+          <article class="article-card">
+            <div class="thumb" aria-hidden="true"></div>
+            <div class="content">
+              <span class="badge">{{ category.name }}</span>
+              <h3><a href="/articulo/{{ article.slug }}">{{ article.title }}</a></h3>
+              <p class="meta">{{ article.author }} · {{ article.published_at.strftime('%d %b %Y') }}</p>
+              <p>{{ article.excerpt }}</p>
+            </div>
+          </article>
+        {% else %}
+          <p>No hay artículos todavía en esta categoría.</p>
+        {% endfor %}
+      </div>
+    </div>
+    <aside>
+      <div class="sidebar-block">
+        <h3>Otras categorías</h3>
+        <ul class="link-list">
+          {% for cat in categories %}
+            <li><a href="/categoria/{{ cat.slug }}">{{ cat.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </section>
+{% endblock %}
